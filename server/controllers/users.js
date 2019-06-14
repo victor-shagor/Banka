@@ -23,5 +23,12 @@ const User = {
       data,
     });
   },
+  signin(req, res){
+    const data = db.find(user => user.email === req.body.email)
+    res.status(200).send({
+      status: 200,
+      data,
+    });
+  }
 };
 export default User;

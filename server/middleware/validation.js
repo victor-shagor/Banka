@@ -1,6 +1,7 @@
 import validator from 'validator';
 
 import db from '../model/db';
+import Helper from '../helpers/helper';
 
 
 const validate = {
@@ -50,5 +51,28 @@ const validate = {
    }
    next();
  },
+ verifySignin(req, res, next){
+  const {password, email} = req.body
+  if(password === undefined || email === undefined){
+   return res.status(400).send({
+    status: 400,
+    error: 'Email and password is required',
+  });
+  }
+  if(validator.isEmpty(password) || validator.isEmpty(email)){
+   return res.status(400).send({
+    status: 400,
+    error: 'please provide email and password',
+  });
+  }
+  const data = db.find(user => user.email === email);
+  if (!data || !Helper.comparePassword(data.password, password)) {
+    return res.status(400).send({
+      status: 400,
+      error: 'Email/password is incorrect',
+    });
+  }
+  next();
+ }
  };
 export default validate

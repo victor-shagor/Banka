@@ -1,4 +1,6 @@
 import validator from 'validator';
+import Helper from '../Helpers/helper';
+import db from '../model/db';
 
 
 const validate = {
@@ -33,6 +35,13 @@ const validate = {
        message: 'please enter a valid email address',
      });
    }
+   const data = db.find(user => user.email === req.body.email);
+    if (data) {
+      return res.status(422).send({
+        status: 422,
+        error: 'This email as already being used',
+      });
+    }
    if (!validator.isAlphanumeric(password) || !validator.isLength(password, { min: 8 })) {
      return res.status(422).send({
        status: 422,

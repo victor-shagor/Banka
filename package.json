@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node ./app.js",
-    "test": "nyc --reporter=lcov mocha --require @babel/register test/userTest.js --exit",
+    "test": "nyc --reporter=lcov mocha --require @babel/register test/usertests.js --exit",
     "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "",

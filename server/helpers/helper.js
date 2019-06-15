@@ -10,9 +10,10 @@ const Helper = {
   comparePassword(hashPassword, password) {
     return bcrypt.compareSync(password, hashPassword);
   },
-  generateToken(id) {
+  generateToken(id, email) {
     const token = jwt.sign({
       userId: id,
+      userEmail:email
     },
     process.env.SECRET, { expiresIn: '7d' });
     return token;

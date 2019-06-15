@@ -80,6 +80,7 @@ describe('users', () => {
           done();
         });
     });
+    let token;
     it('should signin a user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
@@ -87,6 +88,7 @@ describe('users', () => {
           email: 'doyin@gmail.com', password: 'adedoyin1',
         })
         .end((err, res) => {
+          token = res.body.data.token
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('data');
@@ -127,6 +129,43 @@ describe('users', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should create account ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({
+          'x-access-token': token,
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          done();
+        });
+    });
+    it('should not create account without token ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({})
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not create account with wrong token ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({
+          'x-access-token': 'gffc123'
+        })
+        .end((err, res) => {
+          res.should.have.status(422);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           done();

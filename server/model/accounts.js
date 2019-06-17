@@ -6,7 +6,7 @@ const accounts = [
  email: 'ojoabiola@gmail.com',
  type:'savings',
  status: 'active',
- Balance: 5000,
+ balance: 5000,
 },
 {
  accountNumber: 1202,
@@ -15,7 +15,7 @@ const accounts = [
  email: 'doyin1@gmail.com',
  type:'savings',
  status: 'draft',
- openingBalance: 0,
+ balance: 500,
 },
 ];
 

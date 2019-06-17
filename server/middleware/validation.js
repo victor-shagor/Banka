@@ -93,6 +93,29 @@ const validate = {
   });
   }
   next()
+ },
+ verifyAccount(req, res, next){
+   const {status} = req.body
+ const account = acc.find(user => user.accountNumber === parseInt(req.params.accountNumber))
+ if(!account){
+  return res.status(404).send({
+    status: 404,
+    error: 'Account not found',
+  });
+ }
+ if(status === undefined || status !=='active' && status !== 'dormant'){
+  return res.status(400).send({
+    status: 400,
+    error: 'Status is required and can only be active/dormant',
+  });
+ }
+ if(account.status === status){
+  return res.status(200).send({
+    status: 200,
+    error: `Account is already ${status}`,
+  });
+ }
+ next()
  }
  };
 export default validate

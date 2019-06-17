@@ -38,17 +38,34 @@ const User = {
   },
   accounts(req, res){
   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
-  const accountNumber = 123450 + acc.length+1;
+  const accountNumber = 1200 + acc.length+1;
   const email = db.find(user => user.email === decoded.payload.userEmail)
   const data = {
     accountNumber,
     firstName: email.firstName,
     lastName: email.lastName,
-    email: email.email
+    email: email.email,
+    type:'savings',
+    status: 'draft',
+    openingBalance: 0,
   }
   acc.push(data)
   res.status(201).send({
     status: 201,
+    data,
+  });
+  },
+  activate(req, res){
+  const accountNumber = parseInt(req.params.accountNumber)
+  const {status} = req.body
+  const account = acc.find(user => user.accountNumber === accountNumber)
+  account.status = status
+  const data = {
+    accountNumber,
+    status: account.status
+  }
+  res.status(200).send({
+    status: 200,
     data,
   });
   }

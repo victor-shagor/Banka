@@ -116,6 +116,17 @@ const validate = {
   });
  }
  next()
- }
+ },
+ verifyRemoval(req, res, next){
+  const accountNumber = parseInt(req.params.accountNumber)
+  const account = acc.find(user => user.accountNumber === accountNumber)
+  if(!account){
+    return res.status(404).send({
+      status: 404,
+      error: 'Account not found',
+    });
+  }
+  next()
+ },
  };
 export default validate

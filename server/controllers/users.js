@@ -68,6 +68,19 @@ const User = {
     status: 200,
     data,
   });
+  },
+  remove(req, res){
+    const accountNumber = parseInt(req.params.accountNumber)
+    const account = acc.find(user => user.accountNumber === accountNumber)
+    for(let i = 0; i<acc.length; i++){
+      if ( acc[i] === account) {
+        acc.splice(i, 1); 
+      }
+    }
+    return res.status(200).send({
+      status: 200,
+      message: 'Account successfully deleted'
+    });
   }
 };
 export default User;

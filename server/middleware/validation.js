@@ -128,5 +128,30 @@ const validate = {
   }
   next()
  },
+ verifyDebit(req, res, next){
+   const amount = parseInt(req.body.amount)
+  const accountNumber = parseInt(req.params.accountNumber)
+  const account = acc.find(user => user.accountNumber === accountNumber)
+  if(amount === undefined || amount < 1){
+    return res.status(400).send({
+      status: 400,
+      error: 'amount is required and cannot be less than 1',
+    });
+  }
+  if(!account){
+    return res.status(404).send({
+      status: 404,
+      error: 'Account not found',
+    });
+  }
+  if(account.balance < amount){
+    return res.status(400).send({
+      status: 400,
+      error: 'Debit amount cannot be higher than the account balance',
+    }); 
+  }
+  next()
+ }
+ 
  };
 export default validate

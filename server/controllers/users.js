@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import Helper from '../helpers/helper';
 import db from '../model/db';
 import acc from '../model/accounts';
+import tr from '../model/transactions'
 
 const User = {
   create(req, res) {
@@ -81,6 +82,37 @@ const User = {
       status: 200,
       message: 'Account successfully deleted'
     });
+  },
+  debit(req, res){
+  const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+  const {amount} = req.body
+  const accountNumber = parseInt(req.params.accountNumber)
+  const account = acc.find(user => user.accountNumber === accountNumber)
+  const newBalance = account.balance - parseInt(amount)
+  const id = tr.length+1
+  const data1 = {
+    id,
+    createdOn: new Date(),
+    type: 'debit',
+    accountNumber,
+    cashier: decoded.payload.userId,
+    amount,
+    oldBalance: account.Balance,
+    newBalance,
+  }
+  tr.push(data1)
+ const data = {
+   transactionId: id,
+   accountNumber,
+   amount,
+   cashier: decoded.payload.userId,
+   transactionType: 'debit',
+   accountBalance: newBalance
+ }
+ return res.status(201).send({
+  status: 201,
+  data,
+});
   }
 };
 export default User;

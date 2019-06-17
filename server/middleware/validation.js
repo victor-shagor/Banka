@@ -1,6 +1,8 @@
 import validator from 'validator';
+import jwt from 'jsonwebtoken'
 
 import db from '../model/db';
+import acc from '../model/accounts'
 import Helper from '../helpers/helper';
 
 
@@ -73,6 +75,24 @@ const validate = {
     });
   }
   next();
+ },
+ verifyFields(req, res, next){
+  const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+  const email = acc.find(user => user.email === decoded.payload.userEmail)
+  if(email){
+   return res.status(400).send({
+    status: 400,
+    error: 'User already has an account',
+  });
+ }
+  const user = db.find(user => user.email === decoded.payload.userEmail)
+  if(!user){
+   return res.status(400).send({
+    status: 400,
+    error: 'User not registered',
+  });
+  }
+  next()
  }
  };
 export default validate

@@ -33,7 +33,7 @@ describe('users', () => {
           firstName: '', lastName: 'ojo', email: 'ojo@gmail.com', password: '123', address: 'no 2,lagos',
         })
         .end((err, res) => {
-          res.should.have.status(422);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           done();
@@ -46,7 +46,7 @@ describe('users', () => {
           firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '123', address: 'no 2,lagos',
         })
         .end((err, res) => {
-          res.should.have.status(422);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
 
@@ -60,7 +60,7 @@ describe('users', () => {
           firstName: 'abiola', lastName: 'ojo', email: '', password: '123', address: 'no 2,lagos',
         })
         .end((err, res) => {
-          res.should.have.status(422);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           done();
@@ -74,7 +74,7 @@ describe('users', () => {
           firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '', address: 'no 2,lagos',
         })
         .end((err, res) => {
-          res.should.have.status(422);
+          res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('message');
           done();
@@ -117,7 +117,7 @@ describe('users', () => {
           email: 'd@gmail.com', password: 'adedoyin1',
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(404);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           done();
@@ -244,7 +244,7 @@ describe('users', () => {
           'x-access-token': token1
         })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(409);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           done();
@@ -319,6 +319,70 @@ describe('users', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not debit account with wrong account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/0201/debit')
+        .send({
+          amount: 100
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should credit account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1201/credit')
+        .send({
+          amount: 100
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          done();
+        });
+    });
+    it('should not credit account with negative number', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1201/credit')
+        .send({
+          amount: -1
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not credit account with wrong account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/0201/credit')
+        .send({
+          amount: 100
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           done();

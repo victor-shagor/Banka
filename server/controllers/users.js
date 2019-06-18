@@ -97,9 +97,10 @@ const User = {
     accountNumber,
     cashier: decoded.payload.userId,
     amount,
-    oldBalance: account.Balance,
+    oldBalance: account.balance,
     newBalance,
   }
+  account.balance = newBalance
   tr.push(data1)
  const data = {
    transactionId: id,
@@ -113,6 +114,38 @@ const User = {
   status: 201,
   data,
 });
-  }
+  },
+  credit(req, res){
+    const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+    const {amount} = req.body
+    const accountNumber = parseInt(req.params.accountNumber)
+    const account = acc.find(user => user.accountNumber === accountNumber)
+    const newBalance = account.balance + parseInt(amount)
+    const id = tr.length+1
+    const data1 = {
+      id,
+      createdOn: new Date(),
+      type: 'Credit',
+      accountNumber,
+      cashier: decoded.payload.userId,
+      amount,
+      oldBalance: account.balance,
+      newBalance,
+    }
+    account.balance = newBalance
+    tr.push(data1)
+   const data = {
+     transactionId: id,
+     accountNumber,
+     amount,
+     cashier: decoded.payload.userId,
+     transactionType: 'Credit',
+     accountBalance: newBalance
+   }
+   return res.status(201).send({
+    status: 201,
+    data,
+  });
+    },
 };
 export default User;

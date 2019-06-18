@@ -16,8 +16,8 @@ const validate = {
      }
    });
    if (missingFields.length !== 0) {
-     return res.status(422).send({
-       status: 422,
+     return res.status(400).send({
+       status: 400,
        message: 'The following field(s) is required',
        fields: missingFields,
      });
@@ -27,27 +27,27 @@ const validate = {
    } = req.body;
    if (!validator.isAlpha(firstName) || !validator.isAlpha(lastName)
    || !validator.isLength(firstName, { min: 3 }) || !validator.isLength(lastName, { min: 3 })) {
-     return res.status(422).send({
-       status: 422,
+     return res.status(400).send({
+       status: 400,
        message: 'Your names can only be in alphabets and must contain atleast three characters',
      });
    }
    if (!validator.isEmail(email)) {
-     return res.status(422).send({
-       status: 422,
+     return res.status(400).send({
+       status: 400,
        message: 'please enter a valid email address',
      });
    }
    const data = db.find(user => user.email === req.body.email);
     if (data) {
-      return res.status(422).send({
-        status: 422,
+      return res.status(409).send({
+        status: 409,
         error: 'This email as already being used',
       });
     }
    if (!validator.isAlphanumeric(password) || !validator.isLength(password, { min: 8 })) {
-     return res.status(422).send({
-       status: 422,
+     return res.status(400).send({
+       status: 400,
        message: 'Your password must contain atleast 8 characters and must include atleast one number(symbols are not allowed)',
      });
    }
@@ -69,8 +69,8 @@ const validate = {
   }
   const data = db.find(user => user.email === email);
   if (!data || !Helper.comparePassword(data.password, password)) {
-    return res.status(400).send({
-      status: 400,
+    return res.status(404).send({
+      status: 404,
       error: 'Email/password is incorrect',
     });
   }
@@ -80,8 +80,8 @@ const validate = {
   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
   const email = acc.find(user => user.email === decoded.payload.userEmail)
   if(email){
-   return res.status(400).send({
-    status: 400,
+   return res.status(409).send({
+    status: 409,
     error: 'User already has an account',
   });
  }
@@ -110,8 +110,8 @@ const validate = {
   });
  }
  if(account.status === status){
-  return res.status(200).send({
-    status: 200,
+  return res.status(409).send({
+    status: 409,
     error: `Account is already ${status}`,
   });
  }
@@ -151,7 +151,24 @@ const validate = {
     }); 
   }
   next()
+ },
+ verifyCredit(req, res, next){
+  const amount = parseInt(req.body.amount)
+  const accountNumber = parseInt(req.params.accountNumber)
+  const account = acc.find(user => user.accountNumber === accountNumber)
+  if(amount === undefined || amount < 1){
+    return res.status(400).send({
+      status: 400,
+      error: 'amount is required and cannot be less than 1',
+    });
+  }
+  if(!account){
+    return res.status(404).send({
+      status: 404,
+      error: 'Account not found',
+    });
+  }
+  next()
  }
- 
  };
 export default validate

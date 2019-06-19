@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node ./app.js",
-    "test": "nyc --reporter=lcov mocha --require @babel/register test/usertests.js --exit",
-    "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "test": "npm run db:migrate && nyc --reporter=lcov mocha --require @babel/register test/usertests.js --timeout 10000 --exit",
+    "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "db:migrate": "babel-node ./server/migrations/createTables.js"
   },
   "author": "",
   "license": "ISC",

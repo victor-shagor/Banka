@@ -1,11 +1,5 @@
-import dotenv from 'dotenv';
-import Pool from 'pg-pool';
+import pool from '../config'
 
-dotenv.config()
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL_TEST,
-});
 
 const dropTables = `
 DROP TABLE IF EXISTS users CASCADE;

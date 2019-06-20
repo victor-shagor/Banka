@@ -145,43 +145,43 @@ describe('users', () => {
           done();
         });
     });
-  //   it('should create account ', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/accounts')
-  //       .set({
-  //         'x-access-token': token,
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(201);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('data');
-  //         done();
-  //       });
-  //   });
-  //   it('should not create account without token ', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/accounts')
-  //       .set({})
-  //       .end((err, res) => {
-  //         res.should.have.status(401);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
-  //   it('should not create account with wrong token ', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/accounts')
-  //       .set({
-  //         'x-access-token': 'gffc123'
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(422);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
+    it('should create account ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({
+          'x-access-token': token,
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          done();
+        });
+    });
+    it('should not create account without token ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({})
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not create account with wrong token ', (done) => {
+      chai.request(app)
+        .post('/api/v1/accounts')
+        .set({
+          'x-access-token': 'gffc123'
+        })
+        .end((err, res) => {
+          res.should.have.status(422);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
   //   it('should activate or deactivate account ', (done) => {
   //     chai.request(app)
   //       .patch('/api/v1/account/1202')

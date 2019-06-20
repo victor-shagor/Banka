@@ -1,15 +1,8 @@
 import validator from 'validator';
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv';
-import Pool from 'pg-pool';
 
 import Helper from '../helpers/helper';
-
-dotenv.config()
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+import pool from '../config'
 
 
 const validate = {
@@ -90,24 +83,26 @@ const validate = {
     return next();
   })
  },
-//  verifyFields(req, res, next){
-//   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
-//   const email = acc.find(user => user.email === decoded.payload.userEmail)
-//   if(email){
-//    return res.status(409).send({
-//     status: 409,
-//     error: 'User already has an account',
-//   });
-//  }
-//   const user = db.find(user => user.email === decoded.payload.userEmail)
-//   if(!user){
-//    return res.status(400).send({
-//     status: 400,
-//     error: 'User not registered',
-//   });
-//   }
-//   next()
-//  },
+ verifyFields(req, res, next){
+  const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+  pool.query('SELECT * FROM users where email =$1',[decoded.payload.userEmail], (error, results)=>{
+    if(!results.rows[0]){
+     return res.status(400).send({
+      status: 400,
+      error: 'User not registered',
+    });
+    }
+  pool.query('SELECT owner FROM accounts where owner =$1',[decoded.payload.userId], (error, result)=>{
+  if(result.rows[0]){
+   return res.status(409).send({
+    status: 409,
+    error: 'User already has an account',
+  });
+ }
+  return next()
+})
+  })
+ },
 //  verifyAccount(req, res, next){
 //    const {status} = req.body
 //  const account = acc.find(user => user.accountNumber === parseInt(req.params.accountNumber))

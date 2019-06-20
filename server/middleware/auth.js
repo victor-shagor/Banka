@@ -26,8 +26,8 @@ const Auth = {
           error: 'Access Denied, The Token provided is invalid',
         });
       }
+      return next();
     });
-    return next();
   },
   verifyAdmin(req, res, next){
     const token = req.headers['x-access-token'];

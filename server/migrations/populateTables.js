@@ -1,13 +1,6 @@
-import dotenv from 'dotenv';
-import Pool from 'pg-pool';
-
+import pool from '../config'
 import Helper from '../helpers/helper';
 
-dotenv.config()
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL_TEST,
-});
 const password = Helper.hashPassword('oladimeji1');
 const password1 = Helper.hashPassword('adedoyin1');
 

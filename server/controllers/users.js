@@ -1,14 +1,7 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import Pool from 'pg-pool';
 
 import Helper from '../helpers/helper';
-
-dotenv.config()
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+import pool from '../config'
 
 const User = {
   create(req, res) {
@@ -53,25 +46,35 @@ const User = {
       });
     })
   },
-//   accounts(req, res){
-//   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
-//   const accountNumber = 1200 + acc.length+1;
-//   const email = db.find(user => user.email === decoded.payload.userEmail)
-//   const data = {
-//     accountNumber,
-//     firstName: email.firstName,
-//     lastName: email.lastName,
-//     email: email.email,
-//     type:'savings',
-//     status: 'draft',
-//     openingBalance: 0,
-//   }
-//   acc.push(data)
-//   res.status(201).send({
-//     status: 201,
-//     data,
-//   });
-//   },
+  accounts(req, res){
+  const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+  pool.query('SELECT * FROM accounts',(error, results) =>{
+  pool.query('SELECT * FROM users where email =$1',[decoded.payload.userEmail], (error, result)=>{
+    const accountNumber = 1200 + results.rows.length+1;
+    const owner = result.rows[0].id
+    const {firstname, lastname, email} = result.rows[0];
+    const type = 'savings';
+    const status = 'draft';
+    const openingBalance = 0
+  pool.query('INSERT INTO accounts (accountnumber, owner, type, status, balance, createdon) VALUES ($1, $2, $3, $4, $5, $6)', [accountNumber, owner, type, status, openingBalance, new Date()], (error, results) => {
+  const data = {
+    accountNumber,
+    firstname,
+    lastname,
+    email,
+    type,
+    status,
+    openingBalance,
+  }
+  res.status(201).send({
+    status: 201,
+    data,
+  });
+  })
+})
+})
+  
+  },
 //   activate(req, res){
 //   const accountNumber = parseInt(req.params.accountNumber)
 //   const {status} = req.body

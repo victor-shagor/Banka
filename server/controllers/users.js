@@ -75,20 +75,23 @@ const User = {
 })
   
   },
-//   activate(req, res){
-//   const accountNumber = parseInt(req.params.accountNumber)
-//   const {status} = req.body
-//   const account = acc.find(user => user.accountNumber === accountNumber)
-//   account.status = status
-//   const data = {
-//     accountNumber,
-//     status: account.status
-//   }
-//   res.status(200).send({
-//     status: 200,
-//     data,
-//   });
-//   },
+  activate(req, res){
+  const accountNumber = parseInt(req.params.accountNumber)
+  const {status} = req.body
+  pool.query('UPDATE accounts SET status = $1 WHERE accountnumber = $2', [status, accountNumber], (error, result) => {
+  if (error){
+    throw error
+  }
+    const data = {
+    accountNumber,
+    status,
+  }
+  res.status(200).send({
+    status: 200,
+    data,
+  });
+})
+  },
 //   remove(req, res){
 //     const accountNumber = parseInt(req.params.accountNumber)
 //     const account = acc.find(user => user.accountNumber === accountNumber)

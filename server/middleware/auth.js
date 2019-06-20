@@ -46,11 +46,12 @@ const Auth = {
       }
     });
     const decoded = jwt.decode(token, {complete: true})
-    pool.query('SELECT email FROM users WHERE email = $1 ', [decoded.payload.userEmail], (error, results) => {
+    pool.query('SELECT email, isadmin FROM users WHERE email = $1 ', [decoded.payload.userEmail], (error, results) => {
       if (error) {
         throw error;
       }
-    if(results.rows[0].isAdmin !==true){
+    if(results.rows[0].isadmin !== true){
+      console.log(results.rows[0])
       return res.status(403).send({
         status: 403,
         error: 'Only Admin/staff can access this route',

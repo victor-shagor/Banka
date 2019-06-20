@@ -155,6 +155,7 @@ describe('users', () => {
           res.should.have.status(201);
           res.body.should.be.a('object');
           res.body.should.have.property('data');
+          res.body.data.accountNumber.should.equal(1201)
           done();
         });
     });
@@ -182,70 +183,70 @@ describe('users', () => {
           done();
         });
     });
-  //   it('should activate or deactivate account ', (done) => {
-  //     chai.request(app)
-  //       .patch('/api/v1/account/1202')
-  //       .send({
-  //         status: 'active'
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('data');
-  //         done();
-  //       });
-  //   });
-  //   it('should not activate or deactivate account with incorect account number ', (done) => {
-  //     chai.request(app)
-  //       .patch('/api/v1/account/0202')
-  //       .send({
-  //         status: 'active'
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(404);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
-  //   it('should not activate or deactivate account with incorect status ', (done) => {
-  //     chai.request(app)
-  //       .patch('/api/v1/account/1202')
-  //       .send({
-  //         status: 'actived'
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
-  //   it('should not activate or deactivate account with active/dormant status ', (done) => {
-  //     chai.request(app)
-  //       .patch('/api/v1/account/1201')
-  //       .send({
-  //         status: 'active'
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(409);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
+    it('should activate or deactivate account ', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1201')
+        .send({
+          status: 'active'
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          done();
+        });
+    });
+    it('should not activate or deactivate account with incorect account number ', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/0202')
+        .send({
+          status: 'active'
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not activate or deactivate account with incorect status ', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1201')
+        .send({
+          status: 'actived'
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not activate or deactivate account with active/dormant status ', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1201')
+        .send({
+          status: 'active'
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(409);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
   //   it('should delete account', (done) => {
   //     chai.request(app)
   //       .delete('/api/v1/account/1202')

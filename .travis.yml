@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "stable"
 
+services:
+  - postgresql
+
 cache:
   directories:
     - "node_modules"
@@ -12,6 +15,7 @@ env:
     - CC_TEST_REPORTER_ID=46675417967ead0728db77596b95df1975da457acdd6ed9fbb6fabd42ead6350
     - SECRET=sagoro
 before_script:
+  - psql -c 'create database banka_test;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build

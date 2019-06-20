@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node ./app.js",
-    "test": "nyc --reporter=lcov mocha --require @babel/register test/usertests.js --exit",
-    "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "test": "npm run create && nyc --reporter=lcov mocha --require @babel/register test/usertests.js --timeout 10000 --exit && npm run drop",
+    "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "create": "babel-node ./server/migrations/createTables.js",
+    "drop": "babel-node ./server/migrations/dropTables.js"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +35,8 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "pg": "^7.11.0",
+    "pg-pool": "^2.0.6",
     "travis-ci": "^2.2.0",
     "validator": "^11.0.0"
   }

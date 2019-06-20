@@ -1,9 +1,14 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Pool from 'pg-pool';
 
 import db from '../model/db';
 
 dotenv.config();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 const Auth = {
   verifyToken(req, res, next) {
@@ -41,14 +46,18 @@ const Auth = {
       }
     });
     const decoded = jwt.decode(token, {complete: true})
-    const admin = db.find(user => user.id === decoded.payload.userId)
-    if(admin.isAdmin !==true){
+    pool.query('SELECT email FROM users WHERE email = $1 ', [decoded.payload.userEmail], (error, results) => {
+      if (error) {
+        throw error;
+      }
+    if(results.rows[0].isAdmin !==true){
       return res.status(403).send({
         status: 403,
         error: 'Only Admin/staff can access this route',
       });
     }
     return next()
+  })
    }
 };
 

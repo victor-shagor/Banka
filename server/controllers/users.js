@@ -12,7 +12,7 @@ const pool = new Pool({
 
 const User = {
   create(req, res) {
-    const {email, firstName, lastName, } = req.body.email
+    const {email, firstName, lastName} = req.body
     const type = 'client'
     const isAdmin = false
     const password = Helper.hashPassword(req.body.password) 
@@ -36,15 +36,23 @@ const User = {
       });
     });
   },
-//   signin(req, res){
-//     const data = db.find(user => user.email === req.body.email)
-//     const token = Helper.generateToken(data.id, data.email)
-//     data["token"] = token
-//     res.status(200).send({
-//       status: 200,
-//       data,
-//     });
-//   },
+  signin(req, res){
+  const {email} = req.body
+    pool.query('SELECT * FROM users WHERE email = $1', [email], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      const {
+        id, firstname, lastname, email, type, isadmin,
+      } = results.rows[0];
+      const token = Helper.generateToken(id, email) 
+      const data = {token, id, firstname, lastname, email, type, isadmin}
+      res.status(200).send({
+        status: 200,
+        data,
+      });
+    })
+  },
 //   accounts(req, res){
 //   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
 //   const accountNumber = 1200 + acc.length+1;

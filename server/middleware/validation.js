@@ -63,29 +63,33 @@ const validate = {
    next();
   })
  },
-//  verifySignin(req, res, next){
-//   const {password, email} = req.body
-//   if(password === undefined || email === undefined){
-//    return res.status(400).send({
-//     status: 400,
-//     error: 'Email and password is required',
-//   });
-//   }
-//   if(validator.isEmpty(password) || validator.isEmpty(email)){
-//    return res.status(400).send({
-//     status: 400,
-//     error: 'please provide email and password',
-//   });
-//   }
-//   const data = db.find(user => user.email === email);
-//   if (!data || !Helper.comparePassword(data.password, password)) {
-//     return res.status(404).send({
-//       status: 404,
-//       error: 'Email/password is incorrect',
-//     });
-//   }
-//   next();
-//  },
+ verifySignin(req, res, next){
+  const {password, email} = req.body
+  if(password === undefined || email === undefined){
+   return res.status(400).send({
+    status: 400,
+    error: 'Email and password is required',
+  });
+  }
+  if(validator.isEmpty(password) || validator.isEmpty(email)){
+   return res.status(400).send({
+    status: 400,
+    error: 'please provide email and password',
+  });
+  }
+  pool.query('SELECT * FROM users WHERE email = $1', [email], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    if (!results.rows[0] || !Helper.comparePassword(results.rows[0].password, password)) {
+      return res.status(404).send({
+        status: 404,
+        error: 'Email/password is incorrect',
+      });
+    }
+    return next();
+  })
+ },
 //  verifyFields(req, res, next){
 //   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
 //   const email = acc.find(user => user.email === decoded.payload.userEmail)

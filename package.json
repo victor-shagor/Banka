@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node ./app.js",
-    "test": "npm run db:migrate && nyc --reporter=lcov mocha --require @babel/register test/usertests.js --timeout 10000 --exit",
+    "test": "npm run create && nyc --reporter=lcov mocha --require @babel/register test/usertests.js --timeout 10000 --exit && npm run drop",
     "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "db:migrate": "babel-node ./server/migrations/createTables.js"
+    "create": "babel-node ./server/migrations/createTables.js",
+    "drop": "babel-node ./server/migrations/dropTables.js"
   },
   "author": "",
   "license": "ISC",

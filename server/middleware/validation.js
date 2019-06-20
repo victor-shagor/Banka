@@ -92,7 +92,7 @@ const validate = {
       error: 'User not registered',
     });
     }
-  pool.query('SELECT owner FROM accounts where owner =$1',[decoded.payload.userId], (error, result)=>{
+  pool.query('SELECT owner FROM accounts WHERE owner =$1',[decoded.payload.userId], (error, result)=>{
   if(result.rows[0]){
    return res.status(409).send({
     status: 409,
@@ -103,29 +103,34 @@ const validate = {
 })
   })
  },
-//  verifyAccount(req, res, next){
-//    const {status} = req.body
-//  const account = acc.find(user => user.accountNumber === parseInt(req.params.accountNumber))
-//  if(!account){
-//   return res.status(404).send({
-//     status: 404,
-//     error: 'Account not found',
-//   });
-//  }
-//  if(status === undefined || status !=='active' && status !== 'dormant'){
-//   return res.status(400).send({
-//     status: 400,
-//     error: 'Status is required and can only be active/dormant',
-//   });
-//  }
-//  if(account.status === status){
-//   return res.status(409).send({
-//     status: 409,
-//     error: `Account is already ${status}`,
-//   });
-//  }
-//  next()
-//  },
+ verifyAccount(req, res, next){
+   const {status} = req.body
+   const accountNumber = parseInt(req.params.accountNumber)
+   if(status === undefined || status !=='active' && status !== 'dormant'){
+    return res.status(400).send({
+      status: 400,
+      error: 'Status is required and can only be active/dormant',
+    });
+   }
+   pool.query('SELECT accountnumber, status FROM accounts WHERE accountnumber = $1', [accountNumber], (error, result) => {
+ if(error){
+   throw error
+ }
+    if(!result.rows[0]){
+  return res.status(404).send({
+    status: 404,
+    error: 'Account not found',
+  });
+ }
+ if(result.rows[0].status.trim() === status){
+  return res.status(409).send({
+    status: 409,
+    error: `Account is already ${status}`,
+  });
+ }
+ return next()
+});
+ },
 //  verifyRemoval(req, res, next){
 //   const accountNumber = parseInt(req.params.accountNumber)
 //   const account = acc.find(user => user.accountNumber === accountNumber)

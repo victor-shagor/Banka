@@ -247,32 +247,32 @@ describe('users', () => {
           done();
         });
     });
-  //   it('should delete account', (done) => {
-  //     chai.request(app)
-  //       .delete('/api/v1/account/1202')
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(200);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('message');
-  //         done();
-  //       });
-  //   });
-  //   it('should not delete account', (done) => {
-  //     chai.request(app)
-  //       .delete('/api/v1/account/0202')
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(404);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
+    it('should delete account', (done) => {
+      chai.request(app)
+        .delete('/api/v1/account/1201')
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message');
+          done();
+        });
+    });
+    it('should not delete account', (done) => {
+      chai.request(app)
+        .delete('/api/v1/account/0202')
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
   //   it('should debit account', (done) => {
   //     chai.request(app)
   //       .post('/api/v1/transactions/1201/debit')

@@ -131,17 +131,18 @@ const validate = {
  return next()
 });
  },
-//  verifyRemoval(req, res, next){
-//   const accountNumber = parseInt(req.params.accountNumber)
-//   const account = acc.find(user => user.accountNumber === accountNumber)
-//   if(!account){
-//     return res.status(404).send({
-//       status: 404,
-//       error: 'Account not found',
-//     });
-//   }
-//   next()
-//  },
+ verifyRemoval(req, res, next){
+  const accountNumber = parseInt(req.params.accountNumber)
+  pool.query('SELECT accountnumber FROM accounts WHERE accountnumber = $1', [accountNumber], (error, results) =>{
+    if(!results.rows[0]){
+      return res.status(404).send({
+        status: 404,
+        error: 'Account not found',
+      });
+    }
+    return next()
+  })
+ },
 //  verifyDebit(req, res, next){
 //    const amount = parseInt(req.body.amount)
 //   const accountNumber = parseInt(req.params.accountNumber)

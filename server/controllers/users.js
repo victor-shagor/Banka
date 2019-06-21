@@ -92,19 +92,16 @@ const User = {
   });
 })
   },
-//   remove(req, res){
-//     const accountNumber = parseInt(req.params.accountNumber)
-//     const account = acc.find(user => user.accountNumber === accountNumber)
-//     for(let i = 0; i<acc.length; i++){
-//       if ( acc[i] === account) {
-//         acc.splice(i, 1); 
-//       }
-//     }
-//     return res.status(200).send({
-//       status: 200,
-//       message: 'Account successfully deleted'
-//     });
-//   },
+  remove(req, res){
+    const accountNumber = parseInt(req.params.accountNumber)
+    pool.query('DELETE FROM accounts WHERE accountnumber =$1', [accountNumber], (error, results) =>{
+      return res.status(200).send({
+        status: 200,
+        message: `Account ${accountNumber} successfully deleted`
+      });
+    })
+    
+  },
 //   debit(req, res){
 //   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
 //   const {amount} = req.body

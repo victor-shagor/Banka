@@ -17,7 +17,7 @@ userRouter.route('/api/v1/accounts').post(verifyToken, verifyFields, accounts);
 userRouter.route('/api/v1/account/:accountNumber').patch(verifyAdmin, verifyAccount, activate)
 userRouter.route('/api/v1/account/:accountNumber').delete(verifyAdmin, verifyRemoval, remove)
 userRouter.route('/api/v1/transactions/:accountNumber/debit').post(verifyAdmin, verifyDebit, debit);
-// userRouter.route('/api/v1/transactions/:accountNumber/credit').post(verifyAdmin, verifyCredit, credit);
+userRouter.route('/api/v1/transactions/:accountNumber/credit').post(verifyAdmin, verifyCredit, credit);
 
 
 export default userRouter;

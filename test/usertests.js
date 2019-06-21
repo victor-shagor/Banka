@@ -155,7 +155,6 @@ describe('users', () => {
           res.should.have.status(201);
           res.body.should.be.a('object');
           res.body.should.have.property('data');
-          res.body.data.accountNumber.should.equal(1201)
           done();
         });
     });
@@ -249,7 +248,7 @@ describe('users', () => {
     });
     it('should delete account', (done) => {
       chai.request(app)
-        .delete('/api/v1/account/1201')
+        .delete('/api/v1/account/1202')
         .set({
           'x-access-token': token1
         })
@@ -273,70 +272,70 @@ describe('users', () => {
           done();
         });
     });
-  //   it('should debit account', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/transactions/1201/debit')
-  //       .send({
-  //         amount: 100
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(201);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('data');
-  //         done();
-  //       });
-  //   });
-  //   it('should not debit account with negative number', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/transactions/1201/debit')
-  //       .send({
-  //         amount: -1
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
-  //   it('should not debit account if debit amount is higher than balance', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/transactions/1201/debit')
-  //       .send({
-  //         amount: 10000
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
-  //   it('should not debit account with wrong account', (done) => {
-  //     chai.request(app)
-  //       .post('/api/v1/transactions/0201/debit')
-  //       .send({
-  //         amount: 100
-  //       })
-  //       .set({
-  //         'x-access-token': token1
-  //       })
-  //       .end((err, res) => {
-  //         res.should.have.status(404);
-  //         res.body.should.be.a('object');
-  //         res.body.should.have.property('error');
-  //         done();
-  //       });
-  //   });
+    it('should debit account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1201/debit')
+        .send({
+          amount: 100
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          done();
+        });
+    });
+    it('should not debit account with negative number', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1201/debit')
+        .send({
+          amount: -1
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not debit account if debit amount is higher than balance', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1201/debit')
+        .send({
+          amount: 10000
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+    it('should not debit account with wrong account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/0201/debit')
+        .send({
+          amount: 100
+        })
+        .set({
+          'x-access-token': token1
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
   //   it('should credit account', (done) => {
   //     chai.request(app)
   //       .post('/api/v1/transactions/1201/credit')

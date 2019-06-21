@@ -102,38 +102,29 @@ const User = {
     })
     
   },
-//   debit(req, res){
-//   const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
-//   const {amount} = req.body
-//   const accountNumber = parseInt(req.params.accountNumber)
-//   const account = acc.find(user => user.accountNumber === accountNumber)
-//   const newBalance = account.balance - parseInt(amount)
-//   const id = tr.length+1
-//   const data1 = {
-//     id,
-//     createdOn: new Date(),
-//     type: 'debit',
-//     accountNumber,
-//     cashier: decoded.payload.userId,
-//     amount,
-//     oldBalance: account.balance,
-//     newBalance,
-//   }
-//   account.balance = newBalance
-//   tr.push(data1)
-//  const data = {
-//    transactionId: id,
-//    accountNumber,
-//    amount,
-//    cashier: decoded.payload.userId,
-//    transactionType: 'debit',
-//    accountBalance: newBalance
-//  }
-//  return res.status(201).send({
-//   status: 201,
-//   data,
-// });
-//   },
+  debit(req, res){
+  const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
+  const {amount} = req.body
+  const accountNumber = parseInt(req.params.accountNumber)
+  pool.query('SELECT accountnumber, balance FROM accounts WHERE accountnumber =$1', [accountNumber],(error, results) =>{
+  const newBalance = results.rows[0].balance - parseInt(amount)
+  pool.query('INSERT INTO transactions (createdon, type, accountnumber, cashier, amount, oldbalance, newbalance) VALUES ($1, $2, $3, $4, $5, $6, $7)', [new Date(), 'debit', accountNumber, decoded.payload.userId, amount, results.balance, newBalance], (error, result) => {
+    pool.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [newBalance, accountNumber], (error, resul) => {
+ const data = {
+   accountNumber,
+   amount,
+   cashier: decoded.payload.userId,
+   transactionType: 'debit',
+   accountBalance: newBalance
+ }
+ return res.status(201).send({
+  status: 201,
+  data,
+});
+    })
+  })
+})
+  },
 //   credit(req, res){
 //     const decoded = jwt.decode(req.headers['x-access-token'], {complete: true})
 //     const {amount} = req.body

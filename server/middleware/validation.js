@@ -116,7 +116,7 @@ const validate = {
  if(error){
    throw error
  }
-    if(!result.rows[0]){
+    if(!Helper.isValidNumber(accountNumber) || !result.rows[0]){
   return res.status(404).send({
     status: 404,
     error: 'Account not found',
@@ -134,7 +134,7 @@ const validate = {
  verifyRemoval(req, res, next){
   const accountNumber = parseInt(req.params.accountNumber)
   pool.query('SELECT accountnumber FROM accounts WHERE accountnumber = $1', [accountNumber], (error, results) =>{
-    if(!results.rows[0]){
+    if(!Helper.isValidNumber(accountNumber) || !results.rows[0]){
       return res.status(404).send({
         status: 404,
         error: 'Account not found',
@@ -146,14 +146,14 @@ const validate = {
  verifyDebit(req, res, next){
    const amount = parseInt(req.body.amount)
   const accountNumber = parseInt(req.params.accountNumber)
-  if(amount === undefined || amount < 1){
+  if(!Helper.isValidNumber(amount) ||amount === undefined || amount < 1){
     return res.status(400).send({
       status: 400,
       error: 'amount is required and cannot be less than 1',
     });
   }
   pool.query('SELECT accountnumber,balance FROM accounts WHERE accountnumber =$1', [accountNumber],(error, results) =>{
-  if(!results.rows[0]){
+  if(!Helper.isValidNumber(accountNumber) || !results.rows[0]){
     return res.status(404).send({
       status: 404,
       error: 'Account not found',
@@ -168,23 +168,24 @@ const validate = {
   return next()
 })
  },
-//  verifyCredit(req, res, next){
-//   const amount = parseInt(req.body.amount)
-//   const accountNumber = parseInt(req.params.accountNumber)
-//   const account = acc.find(user => user.accountNumber === accountNumber)
-//   if(amount === undefined || amount < 1){
-//     return res.status(400).send({
-//       status: 400,
-//       error: 'amount is required and cannot be less than 1',
-//     });
-//   }
-//   if(!account){
-//     return res.status(404).send({
-//       status: 404,
-//       error: 'Account not found',
-//     });
-//   }
-//   next()
-//  }
+ verifyCredit(req, res, next){
+  const amount = parseInt(req.body.amount)
+  const accountNumber = parseInt(req.params.accountNumber)
+  if(!Helper.isValidNumber(amount) || amount === undefined || amount < 1){
+    return res.status(400).send({
+      status: 400,
+      error: 'amount is required and cannot be less than 1',
+    });
+  }
+  pool.query('SELECT accountnumber FROM accounts WHERE accountnumber =$1', [accountNumber],(error, results) =>{
+    if(!Helper.isValidNumber(accountNumber) || !results.rows[0]){
+      return res.status(404).send({
+      status: 404,
+      error: 'Account not found',
+    });
+  }
+  return next()
+})
+ }
  };
 export default validate

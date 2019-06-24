@@ -50,7 +50,7 @@ const validate = {
     if (results.rows[0]) {
       return res.status(409).send({
         status: 409,
-        error: 'This email as already being used',
+        message: 'This email as already being used',
       });
     }
    next();

@@ -109,7 +109,7 @@ const validate = {
    if(status === undefined || status !=='active' && status !== 'dormant'){
     return res.status(400).send({
       status: 400,
-      error: 'Status is required and can only be active/dormant',
+      error: `Status is required and can only be active/dormant ${req.body.status}`,
     });
    }
    pool.query('SELECT accountnumber, status FROM accounts WHERE accountnumber = $1', [accountNumber], (error, result) => {

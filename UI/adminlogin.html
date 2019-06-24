@@ -4,9 +4,210 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <title>Admin Login</title>
+ <title>Welcome</title>
+ <link rel="stylesheet" href="loginpage.css" type="text/css">
 </head>
 <body>
- 
-</body>
+    <header>
+      <div>
+        <nav id="navbar">
+          <a href="index.html"><img src="logo.png"></a>
+         <p>ojoabiolavictor@gmail.com</p>
+         
+         </nav>
+        </div>
+        </header>
+       
+        
+      <div id= "sidebar">
+        <a href="adminlogin.html"><h3><img src="monitor.png">Dashboard</h3><br></a>
+          <!-- <h4>LOANS</h4>
+       
+        
+        <p><a href=# id= "liloans">Loan Applications</a></p>
+        <p><a href=# id= "lirunning">Running Loans</a></p>
+         -->
+       
+        <h4>ACCOUNTS</h4>
+       
+          <p><a href=# id= "liclients">View Accounts</a></p>
+          <p><a href=# id= "lirepaid">Post Credit Transaction</a></p>
+          <p><a href=# id= "lipost">Post Debit Transaction</a></p><br><br><br>
+          <p class="out"><a href="index.html">Log out</a></p>
+       
+      </div>
+      <div id="board">
+        <h2>Dashboard</h2>
+      <div id="dashboard4">
+        <div id="dash">
+          <h1>681</h1>
+          <p>loan requests</p>
+        </div>
+        <div id="dash">
+            <h1>1020</h1>
+            <p>Active users</p>
+          </div>
+          <div id="dash">
+              <h1>121</h1>
+              <p>pending repayments</p>
+            </div>
+            <div id="dash">
+                <h1>100</h1>
+                <p>unverified Users</p>
+              </div>
+      </div>
+    </div>
+  <div id="returns">
+      <div id= clients>
+          <h3>Clients</h3>
+          <div id="error"></div>
+      <div id= "view">
+       
+      
+       <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Account Number</th>
+                <th>Balance</th>
+                <th>status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody class = "table"></tbody>
+    </table>
+     </div>
+     </div>
+     <!-- <div id= loans>
+        <h3>Loan Applications</h3>
+     <div id= "view">
+      
+     
+      <table>
+      <thead>
+      <tr>
+        <th></th>
+        <th>Applied Date</th>
+       <th>Email</th>
+       <th>Amount</th>
+       <th>Tenor</th>
+       <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>       
+        <td>12/01/2018</td>
+        <td>ojoabiolavictor@gmail.com</td>
+        <td>500,000</td>
+        <td>5months</td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
+        
+       </tr>
+       <tr>
+        <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>
+          <td>12/01/2018</td>
+        <td>ojoabiolavictor@gmail.com</td>
+        <td>500,000</td>
+        <td>5months</td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
+        
+         
+        </tr>
+        <tr>
+          <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>
+            <td>12/01/2018</td>
+         <td>ojoabiolavictor@gmail.com</td>
+        <td>500,000</td>
+        <td>5months</td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
+        
+         </tr>
+        </tbody>
+     </table>
+    </div>
+    </div>
+    <div id="running">
+        <h3>Running Loans</h3>
+    <div id= "view">
+     
+    
+     <table>
+       <thead>
+     <tr>
+       <th>Applied Date</th>
+      <th>Email</th>
+      <th>Amount</th>
+      <th>Tenor</th>
+      <th>Balance</th>
+      <th>Due Date</th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+       <td>01/01/2019</td>
+       <td>ojoabiolavictor@gmail.com</td>
+       <td>500,000</td>
+       <td>5months</td>
+       <td>50,000</td>
+       <td>01/06/2019</td>
+       
+      </tr>
+      <tr>
+          <td>01/01/2019</td>
+          <td>ojoabiolavictor@gmail.com</td>
+          <td>500,000</td>
+          <td>5months</td>
+          <td>50,000</td>
+          <td>01/06/2019</td>
+        
+       </tr>
+       <tr>
+          <td>01/01/2019</td>
+          <td>ojoabiolavictor@gmail.com</td>
+          <td>500,000</td>
+          <td>5months</td>
+          <td>50,000</td>
+          <td>01/06/2019</td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+   </div> -->
+   <div id= "repaid">
+    <div id="message" class="credit-error">
+     <p>Enter loan repayment details below</p>
+   </div>
+   <div id= "box">
+     <form id="postForm">
+       <label for="input">Amount</label>
+       <input class ="amount" id="input" type="number" placeholder="Amount"><br><br>
+       <label for="input">Account</label>
+       <input class="account" id="input" type="Number" placeholder="Account Number"><br><br>
+     </form>
+      <button class="credit" id="posts">Credit</button>
+  </div>
+  </div>
+  <div id= "container">
+      <h3>Post Repayment</h3>
+  <div id="message"  class="debit-error">
+    <p>Enter loan repayment details below</p>
+  </div>
+  <div id= "box">
+    <form id="postForm">
+      <label for="input">Amount</label>
+      <input class="damount" id="input" type="number" placeholder="Amount"><br><br>
+      <label for="input">Account</label>
+      <input class="daccount" id="input" type="Number" placeholder="Account Number"><br><br>
+    </form>
+     <button class="debit" id="posts">Debit</button>
+  </div>
+  </div>
+</div>
+
+  <script src =admin.js></script>
+  <script src ="./js/admin.js"></script>
+    </body>
+
+
 </html>

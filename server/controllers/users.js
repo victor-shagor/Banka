@@ -75,6 +75,17 @@ const User = {
 })
   
   },
+  getAccounts(req, res){
+    pool.query('SELECT * FROM accounts', (error, results) => {
+      if (error) {
+        throw error;
+      }
+      return res.status(200).send({ 
+        status: 200,
+        data: results.rows, 
+      });
+    });
+  },
   activate(req, res){
   const accountNumber = parseInt(req.params.accountNumber)
   const {status} = req.body

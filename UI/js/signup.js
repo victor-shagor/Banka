@@ -22,15 +22,14 @@ const signup = async (event) => {
  }
  );
  const response = await get.json();
- if(response.status !==201){
-  error.innerHTML = response.error
-  if(response.status !==200){
+
+  if(response.status !==201){
     error.innerHTML = response.error
     setTimeout(function(){
      document.querySelector('.debit-error').remove();
   },3000)
    }
- }
+ 
  else{
   if(response.data.isadmin === true){
    window.location.href = "../UI/adminlogin.html"

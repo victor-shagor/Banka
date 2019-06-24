@@ -7,7 +7,7 @@ const login = async (event) => {
   email,
   password
   }
- const get = await fetch('http://localhost:3000/api/v1/auth/signin', 
+ const get = await fetch('https://banka-victor.herokuapp.com/api/v1/auth/signin', 
  {
   method: 'POST',
   headers: {

@@ -12,7 +12,7 @@ const signup = async (event) => {
   firstName,
   lastName
   }
- const get = await fetch('http://localhost:3000/api/v1/auth/signup', 
+ const get = await fetch('https://banka-victor.herokuapp.com/api/v1/auth/signup', 
  {
   method: 'POST',
   headers: {

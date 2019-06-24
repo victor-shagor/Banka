@@ -6,7 +6,7 @@ const create = async (event)=> {
   window.location.href = "../UI/signin.html"
  }
  else{
- const get = await fetch('http://localhost:3000/api/v1/accounts',
+ const get = await fetch('https://banka-victor.herokuapp.com/api/v1/accounts',
  {
   method: 'POST',
   headers: {

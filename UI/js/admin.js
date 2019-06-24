@@ -7,7 +7,7 @@ const getData = async (event)=> {
   window.location.href = "../UI/signin.html"
  }
  else{
- const get = await fetch('http://localhost:3000/api/v1/accounts',
+ const get = await fetch('https://banka-victor.herokuapp.com/api/v1/accounts',
  {
   method: 'GET',
   headers: {
@@ -51,7 +51,7 @@ const deleteAccount = async (event)=> {
   window.location.href = "../UI/signin.html"
  }
  else{
- const get = await fetch(`http://localhost:3000/api/v1/account/${account}`,
+ const get = await fetch(`https://banka-victor.herokuapp.com/api/v1/account/${account}`,
  {
   method: 'DELETE',
   headers: {
@@ -80,7 +80,7 @@ const activate = async (event)=> {
     window.location.href = "../UI/signin.html"
    }
    else{
- const get = await fetch(`http://localhost:3000/api/v1/account/${account}`,
+ const get = await fetch(`https://banka-victor.herokuapp.com/api/v1/account/${account}`,
  {
   method: 'PATCH',
   headers: {
@@ -106,7 +106,7 @@ const debit = async (event)=> {
   window.location.href = "../UI/signin.html"
  }
  else{
- const get = await fetch(`http://localhost:3000/api/v1/transactions/${account}/debit`,
+ const get = await fetch(`https://banka-victor.herokuapp.com/api/v1/transactions/${account}/debit`,
  {
   method: 'POST',
   headers: {
@@ -147,7 +147,7 @@ const credit = async (event)=> {
   window.location.href = "../UI/signin.html"
  }
  else{
- const get = await fetch(`http://localhost:3000/api/v1/transactions/${account}/credit`,
+ const get = await fetch(`https://banka-victor.herokuapp.com/api/v1/transactions/${account}/credit`,
  {
   method: 'POST',
   headers: {

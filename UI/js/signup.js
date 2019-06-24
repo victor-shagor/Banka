@@ -24,7 +24,7 @@ const signup = async (event) => {
  const response = await get.json();
 
   if(response.status !==201){
-    error.innerHTML = response.error
+    error.innerHTML = response.message
     setTimeout(function(){
      document.querySelector('.debit-error').remove();
   },3000)
